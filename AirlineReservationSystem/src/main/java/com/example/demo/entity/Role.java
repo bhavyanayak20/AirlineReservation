@@ -1,10 +1,6 @@
 package com.example.demo.entity;
 
- 
-
 import java.util.Set;
-
- 
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,52 +10,42 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
- 
-
 @Entity
 @Table(name = "ROLE_DATA")
 public class Role {
-    @Id
-    @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+	@Id
+	@Column(name = "ID")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer id;
 
-    @Column(name = "ROLE_NAME")
-    private ERole name;
+	@Column(name = "NAME")
+	private String name;
 
- 
+	public Role(String name) {
+		super();
+		this.name = name;
+	}
 
-    public ERole getName() {
-        return name;
-    }
+	public Role() {
+		
+	}
 
- 
+	public Integer getId() {
+		return id;
+	}
 
-    public void setName(ERole name) {
-        this.name = name;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
- 
+	public String getName() {
+		return name;
+	}
 
-    
-    public Role(ERole name) {
+	public void setName(String name) {
+		this.name = name;
+	}
 
-        this.name = name;
-    }
-
- 
-
-    public Role() {
-
-    }
-
-
-
-
- 
-
-    
-
-
+	
 
 }

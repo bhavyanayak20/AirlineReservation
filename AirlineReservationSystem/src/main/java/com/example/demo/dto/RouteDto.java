@@ -56,7 +56,4 @@ public class RouteDto {
 	public void setFlight(Flight flight) {
 		this.flight = flight;
 	}
-
-
-	
 }

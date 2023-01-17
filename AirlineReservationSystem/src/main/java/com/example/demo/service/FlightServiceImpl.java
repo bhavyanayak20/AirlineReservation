@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import com.example.demo.dto.FlightDto;
 import com.example.demo.entity.Flight;
 import com.example.demo.entity.Role;
-import com.example.demo.entity.User;
+import com.example.demo.entity.Users;
 import com.example.demo.exception.BusinessException;
 import com.example.demo.exception.ExceptionConstant;
 import com.example.demo.repository.FlightRepository;
@@ -65,14 +65,14 @@ public class FlightServiceImpl implements FlightService {
 	}
 
 	@Override
-	public Flight getFlightById(Integer id) {
+	public Optional<Flight> getFlightById(Integer id) {
 		Optional<Flight> flt= null;
 		try {
 			if (id == null) {
 				throw new BusinessException(ExceptionConstant.LIST_NOT_FOUND, "Failed to retrive");
 			}else {
 				 flt= flightRepo.findById(id);
-				 if(flt) {
+				 if(flt == null) {
 					 throw new BusinessException(ExceptionConstant.LIST_NOT_FOUND, "Failed to retrive"); 
 				 }
 			}

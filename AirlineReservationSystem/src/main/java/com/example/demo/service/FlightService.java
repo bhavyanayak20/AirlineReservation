@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,6 @@ public interface FlightService {
 
 	public void deleteFlight(Integer id);
 
-	public Flight getFlightById(Integer id);
+	public Optional<Flight> getFlightById(Integer id);
 
 }
