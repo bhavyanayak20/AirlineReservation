@@ -26,7 +26,7 @@ public class BasicAuthSecurityConfig {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-		http.csrf().disable().authorizeRequests().requestMatchers("/**", "/registration", "/login").permitAll()
+		http.csrf().disable().authorizeRequests().requestMatchers("/**","/registration", "/login").permitAll()
 				.anyRequest().authenticated().and().cors()
 //       
 				.and().httpBasic();

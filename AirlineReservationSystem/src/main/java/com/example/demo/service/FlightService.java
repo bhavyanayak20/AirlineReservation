@@ -12,14 +12,14 @@ import com.example.demo.entity.Flight;
 
 public interface FlightService {
 
-	public Flight addFlight(FlightDto flightdto);
+	public String addFlight(FlightDto flightDto);
 
 	public List<FlightDto> getFlight();
 
-	public Flight updateFlight(Flight flight) throws Exception;
+	public String updateFlight(FlightDto flightDto) throws Exception;
 
 	public void deleteFlight(Integer id);
 
-	public Optional<Flight> getFlightById(Integer id);
+	public FlightDto getFlightById(Integer id);
 
 }

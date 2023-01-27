@@ -35,72 +35,71 @@ public class FlightController {
 	}
 
 	@PostMapping("/add")
-	public ResponseEntity<String> addFlight(@RequestBody FlightDto flightdto) {
+	public ResponseEntity<String> addFlight(@RequestBody FlightDto flightDto) {
+		String response = null;
 		try {
-			if (flightdto == null) {
+			if (flightDto == null) {
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 			} else {
-				Flight flight = flightService.addFlight(flightdto);
-				return new ResponseEntity<>(HttpStatus.OK);
+				response = flightService.addFlight(flightDto);
 			}
-
 		} catch (BusinessException e) {
-			ControllerException ce = new ControllerException(e.getErrorCode(), e.getErrorMessage());
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
+		return new ResponseEntity<>(response,HttpStatus.OK);
 	}
 
 	@GetMapping("/list")
-	public ResponseEntity<String> getFlight() {
+	public ResponseEntity<List<FlightDto>> getFlight() {
 		try {
-			flightService.getFlight();
-			return new ResponseEntity<>(HttpStatus.OK);
+			List<FlightDto> flightlist = flightService.getFlight();
+			return new ResponseEntity<List<FlightDto>>(flightlist, HttpStatus.OK);
 		} catch (BusinessException e) {
-			ControllerException ce = new ControllerException(e.getErrorCode(), e.getErrorMessage());
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
+	
 	}
 
 	@GetMapping("/flight/{flightId}")
 	public ResponseEntity<FlightDto> getFlightById(@PathVariable("flightId") Integer id) {
-		FlightDto flightDto = new FlightDto();
 		if (id == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		try {
-			flightService.getFlightById(id);
-			return new ResponseEntity<>(HttpStatus.OK);
+			FlightDto flight = flightService.getFlightById(id);
+			return new ResponseEntity<FlightDto>(flight, HttpStatus.OK);
 		} catch (BusinessException e) {
-			ControllerException ce = new ControllerException(e.getErrorCode(), e.getErrorMessage());
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
+		
 	}
 
 	@DeleteMapping("/delete/{flightId}")
 	public ResponseEntity<FlightDto> deleteFlight(@PathVariable("flightId") Integer id) {
-		FlightDto flightDto = new FlightDto();
 		if (id == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		try {
 			flightService.deleteFlight(id);
-			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (BusinessException e) {
-			ControllerException ce = new ControllerException(e.getErrorCode(), e.getErrorMessage());
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@PutMapping("/update/{id}")
-	public ResponseEntity<?> updateFlight(@PathVariable("id") Integer id, @RequestBody Flight flight) throws Exception {
-		Optional<Flight> flight_details = flightService.getFlightById(id);
-		try {
-			flightService.updateFlight(flight);
-			return new ResponseEntity<Void>(HttpStatus.OK);
-		} catch (BusinessException e) {
-			ControllerException ce = new ControllerException(e.getErrorCode(), e.getErrorMessage());
-			return new ResponseEntity<ControllerException>(ce, HttpStatus.BAD_REQUEST);
+	public ResponseEntity<String> updateFlight(@PathVariable("id") Integer id, @RequestBody FlightDto flightDto) throws Exception {
+	//	Optional<FlightDto> flight_details = flightService.getFlightById(id);
+		if (id == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
+		try {
+			flightService.updateFlight(flightDto);
+			
+		} catch (BusinessException e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 }
