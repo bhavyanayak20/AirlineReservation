@@ -10,14 +10,16 @@ import com.example.demo.entity.Route;
 @Service
 public interface RouteService {
 
-	public Route addRoute(RouteDto routedto);
+	public String addRoute(RouteDto routeDto);
 
 	public List<RouteDto> getRoute();
 
-	public Route updateRoute(Route route);
+	public String updateRoute(RouteDto routeDto);
 
 	public void deleteRoute(Integer id);
 
-	public Route getRouteById(Integer id);
+	public RouteDto getRouteById(Integer id);
+
+	
 
 }

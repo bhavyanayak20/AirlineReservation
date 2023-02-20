@@ -14,30 +14,25 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.dto.FlightDto;
+import com.example.demo.dto.BookingDto;
 import com.example.demo.exception.BusinessException;
-import com.example.demo.service.FlightService;
+import com.example.demo.service.BookingService;
 
 @RestController
-@RequestMapping("/flight")
-
-public class FlightController {
-
+@RequestMapping("/booking")
+public class BookingController {
+	
 	@Autowired
-	private FlightService flightService;
-
-	public FlightController(FlightService flightService) {
-		this.flightService = flightService;
-	}
-
+	private BookingService bookingService;
+	
 	@PostMapping("/add")
-	public ResponseEntity<String> addFlight(@RequestBody FlightDto flightDto) {
+	public ResponseEntity<String> addBooking(@RequestBody BookingDto bookingDto) {
 		String response = null;
 		try {
-			if (flightDto == null) {
+			if (bookingDto == null) {
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 			} else {
-				response = flightService.addFlight(flightDto);
+				response = bookingService.addBooking(bookingDto);
 			}
 		} catch (BusinessException e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -46,53 +41,51 @@ public class FlightController {
 	}
 
 	@GetMapping("/list")
-	public ResponseEntity<List<FlightDto>> getFlight() {
+	public ResponseEntity<List<BookingDto>> getBooking() {
 		try {
-			List<FlightDto> flightlist = flightService.getFlight();
-			return new ResponseEntity<List<FlightDto>>(flightlist, HttpStatus.OK);
+			List<BookingDto> bookinglist = bookingService.getBooking();
+			return new ResponseEntity<List<BookingDto>>(bookinglist, HttpStatus.OK);
 		} catch (BusinessException e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
 	}
 
-	@GetMapping("/flight/{flightId}")
-	public ResponseEntity<FlightDto> getFlightById(@PathVariable("flightId") Integer id) {
+	@GetMapping("/booking/{bookingId}")
+	public ResponseEntity<BookingDto> getBookingById(@PathVariable("bookingId") Integer id) {
 		if (id == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		try {
-			FlightDto flight = flightService.getFlightById(id);
-			return new ResponseEntity<FlightDto>(flight, HttpStatus.OK);
+			BookingDto booking = bookingService.getBookingById(id);
+			return new ResponseEntity<BookingDto>(booking, HttpStatus.OK);
 		} catch (BusinessException e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
 	}
 
-	@DeleteMapping("/delete/{flightId}")
-	public ResponseEntity<FlightDto> deleteFlight(@PathVariable("flightId") Integer id) {
+	@PutMapping("/update/{id}")
+	public ResponseEntity<String> updateBooking(@PathVariable("id") Integer id, @RequestBody BookingDto bookingDto)throws Exception {
 		if (id == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		try {
-			flightService.deleteFlight(id);
+			bookingService.updateBooking(bookingDto);
+
 		} catch (BusinessException e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@PutMapping("/update/{id}")
-	public ResponseEntity<String> updateFlight(@PathVariable("id") Integer id, @RequestBody FlightDto flightDto)
-			throws Exception {
-		// Optional<FlightDto> flight_details = flightService.getFlightById(id);
+	@DeleteMapping("/delete/{bookingId}")
+	public ResponseEntity<BookingDto> deleteBooking(@PathVariable("bookingId") Integer id) {
 		if (id == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		try {
-			flightService.updateFlight(flightDto);
-
+			bookingService.deleteBooking(id);
 		} catch (BusinessException e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}

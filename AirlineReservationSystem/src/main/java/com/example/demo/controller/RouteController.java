@@ -1,9 +1,6 @@
 package com.example.demo.controller;
 
-import java.io.IOException;
 import java.util.List;
-
-import javax.management.AttributeNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,9 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.FlightDto;
 import com.example.demo.dto.RouteDto;
-import com.example.demo.entity.Flight;
 import com.example.demo.entity.Route;
-import com.example.demo.repository.RouteRepository;
+import com.example.demo.exception.BusinessException;
 import com.example.demo.service.RouteService;
 
 @RestController
@@ -30,45 +26,71 @@ public class RouteController {
 	@Autowired
 	private RouteService routeService;
 
-	public RouteController(RouteService routeService) {
-		super();
-		this.routeService = routeService;
-	}
 
 	@PostMapping("/add")
-	public ResponseEntity<Route> addRoute(@RequestBody RouteDto routedto) {
-		Route routesaved = routeService.addRoute(routedto);
-		return new ResponseEntity<Route>(routesaved, HttpStatus.CREATED);
-
+	public ResponseEntity<String> addRoute(@RequestBody RouteDto routeDto) {
+		String response = null;
+		try {
+			if (routeDto == null) {
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			} else {
+				response = routeService.addRoute(routeDto);
+			}
+		} catch (BusinessException e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
 	@GetMapping("/list")
 	public ResponseEntity<List<RouteDto>> getRoute() {
-		List<RouteDto> routelist = routeService.getRoute();
-		return new ResponseEntity<List<RouteDto>>(routelist, HttpStatus.OK);
+		try {
+			List<RouteDto> routelist = routeService.getRoute();
+			return new ResponseEntity<List<RouteDto>>(routelist, HttpStatus.OK);
+		} catch (BusinessException e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
 	}
 
 	@GetMapping("/route/{routeId}")
-	public ResponseEntity<Route> getRouteById(@PathVariable("routeId") Integer id) {
-		Route routelist = routeService.getRouteById(id);
-		return new ResponseEntity<Route>(routelist, HttpStatus.OK);
+	public ResponseEntity<RouteDto> getRouteById(@PathVariable("routeId") Integer id) {
+		if (id == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		try {
+			RouteDto route = routeService.getRouteById(id);
+			return new ResponseEntity<RouteDto>(route, HttpStatus.OK);
+		} catch (BusinessException e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
 	}
 
 	@PutMapping("/update/{id}")
-	public ResponseEntity<Route> updateRoute(@PathVariable("id") Integer id, @RequestBody Route route) {
-		Route route_details = routeService.getRouteById(id);
-		try {
-			routeService.updateRoute(route);
-		} catch (Exception e) {
-			e.printStackTrace();
+	public ResponseEntity<String> updateRoute(@PathVariable("id") Integer id, @RequestBody RouteDto routeDto)throws Exception {
+		if (id == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-		return new ResponseEntity<Route>(HttpStatus.OK);
+		try {
+			routeService.updateRoute(routeDto);
+
+		} catch (BusinessException e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@DeleteMapping("/delete/{routeId}")
-	public ResponseEntity<Void> deleteRoute(@PathVariable("routeId") Integer id) {
-		routeService.deleteRoute(id);
-		return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
-
+	public ResponseEntity<RouteDto> deleteRoute(@PathVariable("routeId") Integer id) {
+		if (id == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		try {
+			routeService.deleteRoute(id);
+		} catch (BusinessException e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }

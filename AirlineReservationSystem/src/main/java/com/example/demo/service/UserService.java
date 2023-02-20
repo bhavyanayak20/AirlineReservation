@@ -6,6 +6,7 @@ import com.example.demo.dto.UserDto;
 import com.example.demo.entity.Users;
 
 public interface UserService extends UserDetailsService {
- Users save(UserDto userdto);
- Users getUserByEmail(String email);
+	Users save(UserDto userdto);
+
+	Users getUserByEmail(String email);
 }

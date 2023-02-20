@@ -1,11 +1,6 @@
 package com.example.demo.entity;
 
 import java.util.Collection;
-import java.util.Set;
-
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -17,7 +12,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
@@ -93,7 +87,5 @@ public class Users {
 		this.password = password;
 		this.roles = roles;
 	}
-
-	
 
 }

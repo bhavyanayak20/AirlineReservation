@@ -1,7 +1,5 @@
 package com.example.demo.dto;
 
-import lombok.Data;
-
 public class FlightDto {
 
 	private String flightNumber;

@@ -1,13 +1,10 @@
 package com.example.demo.entity;
 
-import java.util.Set;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -27,7 +24,7 @@ public class Role {
 	}
 
 	public Role() {
-		
+
 	}
 
 	public Integer getId() {
@@ -45,7 +42,5 @@ public class Role {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	
 
 }
